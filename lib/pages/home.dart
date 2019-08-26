@@ -45,7 +45,9 @@ class MainPage extends StatelessWidget {
               ),
               ListTile(
                 title: Text("Sign out"),
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushReplacementNamed(context, "/login");
+                },
               ),
             ],
           ),
