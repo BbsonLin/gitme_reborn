@@ -45,8 +45,25 @@ class MainPage extends StatelessWidget {
               ),
               ListTile(
                 title: Text("Sign out"),
-                onTap: () {
-                  Navigator.pushReplacementNamed(context, "/login");
+                onTap: () async {
+                  await showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) => AlertDialog(
+                      content: Text("Are you sure to exit current account."),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: Text("Cancel"),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                        FlatButton(
+                          child: Text("OK"),
+                          onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                              context, "/login", ModalRoute.withName('/')),
+                        ),
+                      ],
+                    ),
+                  );
                 },
               ),
             ],
