@@ -3,6 +3,7 @@ import 'package:gitme_reborn/components/drawer_tile.dart';
 import 'package:gitme_reborn/pages/activity.dart';
 import 'package:gitme_reborn/pages/issue.dart';
 import 'package:gitme_reborn/pages/repo.dart';
+import 'package:gitme_reborn/pages/search.dart';
 
 // 主頁面
 class MainPage extends StatelessWidget {
@@ -25,7 +26,12 @@ class MainPage extends StatelessWidget {
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.search),
-              onPressed: () {},
+              onPressed: () {
+                showSearch(
+                  context: context,
+                  delegate: GitmeRebornSearchDelegate(),
+                );
+              },
             )
           ],
         ),
