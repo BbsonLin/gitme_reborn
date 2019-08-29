@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gitme_reborn/pages/activity.dart';
+import 'package:gitme_reborn/pages/issue.dart';
+import 'package:gitme_reborn/pages/repo.dart';
 
 // 主頁面
 class MainPage extends StatelessWidget {
@@ -28,9 +31,9 @@ class MainPage extends StatelessWidget {
         body: TabBarView(
           children: <Widget>[
             HomePage(),
-            Text("Repo"),
-            Text("Activity"),
-            Text("Issues"),
+            RepoPage(),
+            ActivityPage(),
+            IssuePage(),
           ],
         ),
         drawer: Drawer(
