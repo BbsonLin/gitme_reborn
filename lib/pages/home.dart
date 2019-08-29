@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gitme_reborn/components/drawer_tile.dart';
 import 'package:gitme_reborn/pages/activity.dart';
 import 'package:gitme_reborn/pages/issue.dart';
 import 'package:gitme_reborn/pages/repo.dart';
@@ -40,15 +41,46 @@ class MainPage extends StatelessWidget {
           child: ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[
-              DrawerHeader(
-                child: Text("Bobson Lin"),
+              UserAccountsDrawerHeader(
                 decoration: BoxDecoration(
                   color: Colors.blueGrey,
                 ),
+                accountName: Text("Bbson Lin"),
+                accountEmail: Text("bobson801104@gmail.com"),
+                currentAccountPicture: CircleAvatar(
+                  backgroundImage: NetworkImage(
+                    "https://avatars2.githubusercontent.com/u/18156421?s=400&u=1f91dcf74134827fde071751f95522845223ed6a&v=4",
+                  ),
+                ),
+                otherAccountsPictures: <Widget>[
+                  Icon(Icons.edit, color: Colors.white),
+                ],
               ),
-              ListTile(
-                title: Text("Sign out"),
-                onTap: () async {
+              DrawerTile(
+                icon: Icon(Icons.trending_up),
+                text: "Trending",
+                onPressed: () {
+                  print("Head to Trending Page");
+                },
+              ),
+              DrawerTile(
+                icon: Icon(Icons.settings),
+                text: "Setting",
+                onPressed: () {
+                  print("Head to Setting Page");
+                },
+              ),
+              DrawerTile(
+                icon: Icon(Icons.info),
+                text: "About",
+                onPressed: () {
+                  print("Head to About Page");
+                },
+              ),
+              DrawerTile(
+                icon: Icon(Icons.power_settings_new),
+                text: "Sign out",
+                onPressed: () async {
                   await showDialog(
                     context: context,
                     barrierDismissible: false,
