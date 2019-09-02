@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
-class RepoPage extends StatelessWidget {
+class RepoPage extends StatefulWidget {
+  @override
+  _RepoPageState createState() => _RepoPageState();
+}
+
+class _RepoPageState extends State<RepoPage> {
   final List repoList = [
     {
       "title": "BbsonLin/gitme_reborn",
@@ -22,7 +27,7 @@ class RepoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return RefreshIndicator(
       child: ListView.separated(
         itemCount: repoList.length,
         itemBuilder: (BuildContext context, int index) {
@@ -38,6 +43,15 @@ class RepoPage extends StatelessWidget {
         separatorBuilder: (BuildContext context, int index) =>
             const Divider(height: 0.0),
       ),
+      onRefresh: () async {
+        return Future.delayed(Duration(seconds: 2), () {
+          setState(() {
+            repoList.add(
+                {"title": "BbsonLin/new-item", "description": "", "lang": ""});
+            print(repoList);
+          });
+        });
+      },
     );
   }
 }

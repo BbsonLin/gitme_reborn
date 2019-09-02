@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
-class ActivityPage extends StatelessWidget {
+class ActivityPage extends StatefulWidget {
+  @override
+  _ActivityPageState createState() => _ActivityPageState();
+}
+
+class _ActivityPageState extends State<ActivityPage> {
   final List actList = [
     {
       "title": "yyx990803 starred cyanzhong/apple-terminated-my-dev-account",
@@ -18,7 +23,7 @@ class ActivityPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return RefreshIndicator(
       child: ListView.separated(
         itemCount: actList.length,
         itemBuilder: (BuildContext context, int index) {
@@ -30,8 +35,12 @@ class ActivityPage extends StatelessWidget {
             onTap: () {},
           );
         },
-        separatorBuilder: (BuildContext context, int index) => const Divider(height: 0.0),
+        separatorBuilder: (BuildContext context, int index) =>
+            const Divider(height: 0.0),
       ),
+      onRefresh: () {
+        return Future.delayed(Duration(seconds: 2));
+      },
     );
   }
 }
