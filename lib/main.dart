@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
-import 'package:gitme_reborn/pages/home.dart';
+import "package:gitme_reborn/pages/home.dart";
 import "package:gitme_reborn/pages/login.dart";
-import 'package:gitme_reborn/routes.dart';
+import "package:gitme_reborn/routes.dart";
 
 void main() => runApp(GitmeRebornApp());
 

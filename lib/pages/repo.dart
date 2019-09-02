@@ -48,7 +48,6 @@ class _RepoPageState extends State<RepoPage> {
           setState(() {
             repoList.add(
                 {"title": "BbsonLin/new-item", "description": "", "lang": ""});
-            print(repoList);
           });
         });
       },
