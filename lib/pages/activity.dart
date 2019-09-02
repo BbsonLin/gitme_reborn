@@ -23,24 +23,26 @@ class _ActivityPageState extends State<ActivityPage> {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      child: ListView.separated(
-        itemCount: actList.length,
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            leading: Icon(Icons.account_circle),
-            title: Text(actList[index]["title"]),
-            subtitle: Text(actList[index]["time"]),
-            trailing: Icon(Icons.star),
-            onTap: () {},
-          );
+    return Scrollbar(
+      child: RefreshIndicator(
+        child: ListView.separated(
+          itemCount: actList.length,
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+              leading: Icon(Icons.account_circle),
+              title: Text(actList[index]["title"]),
+              subtitle: Text(actList[index]["time"]),
+              trailing: Icon(Icons.star),
+              onTap: () {},
+            );
+          },
+          separatorBuilder: (BuildContext context, int index) =>
+              const Divider(height: 0.0),
+        ),
+        onRefresh: () {
+          return Future.delayed(Duration(seconds: 2));
         },
-        separatorBuilder: (BuildContext context, int index) =>
-            const Divider(height: 0.0),
       ),
-      onRefresh: () {
-        return Future.delayed(Duration(seconds: 2));
-      },
     );
   }
 }

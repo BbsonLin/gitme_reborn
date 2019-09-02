@@ -199,58 +199,60 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      child: ListView(
-        children: <Widget>[
-          ListTile(
-            dense: true,
-            title: Text("Hackernews Top"),
-            trailing: Icon(Icons.chevron_right),
-            onTap: () {},
-          ),
-          Divider(
-            height: 0.0,
-          ),
-          ...buildHNTopStories(context),
-          Container(
-            child: Divider(
-              height: 8.0,
+    return Scrollbar(
+      child: RefreshIndicator(
+        child: ListView(
+          children: <Widget>[
+            ListTile(
+              dense: true,
+              title: Text("Hackernews Top"),
+              trailing: Icon(Icons.chevron_right),
+              onTap: () {},
+            ),
+            Divider(
+              height: 0.0,
+            ),
+            ...buildHNTopStories(context),
+            Container(
+              child: Divider(
+                height: 8.0,
+                color: Colors.grey[200],
+              ),
               color: Colors.grey[200],
             ),
-            color: Colors.grey[200],
-          ),
-          ListTile(
-            dense: true,
-            title: Text("Hackernews New"),
-            trailing: Icon(Icons.chevron_right),
-            onTap: () {},
-          ),
-          Divider(
-            height: 0.0,
-          ),
-          ...buildHNNewStories(context),
-          Container(
-            child: Divider(
-              height: 8.0,
+            ListTile(
+              dense: true,
+              title: Text("Hackernews New"),
+              trailing: Icon(Icons.chevron_right),
+              onTap: () {},
+            ),
+            Divider(
+              height: 0.0,
+            ),
+            ...buildHNNewStories(context),
+            Container(
+              child: Divider(
+                height: 8.0,
+                color: Colors.grey[200],
+              ),
               color: Colors.grey[200],
             ),
-            color: Colors.grey[200],
-          ),
-          ListTile(
-            dense: true,
-            title: Text("Github Trending"),
-            trailing: Icon(Icons.chevron_right),
-            onTap: () {},
-          ),
-          Divider(
-            height: 0.0,
-          ),
-          ...buildGHTrends(context),
-        ],
+            ListTile(
+              dense: true,
+              title: Text("Github Trending"),
+              trailing: Icon(Icons.chevron_right),
+              onTap: () {},
+            ),
+            Divider(
+              height: 0.0,
+            ),
+            ...buildGHTrends(context),
+          ],
+        ),
+        onRefresh: () {
+          return Future.delayed(Duration(seconds: 2));
+        },
       ),
-      onRefresh: () {
-        return Future.delayed(Duration(seconds: 2));
-      },
     );
   }
 

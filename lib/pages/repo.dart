@@ -27,30 +27,35 @@ class _RepoPageState extends State<RepoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      child: ListView.separated(
-        itemCount: repoList.length,
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Text(repoList[index]["title"]),
-            subtitle: Text(repoList[index]["description"]),
-            trailing: Text(repoList[index]["lang"]),
-            isThreeLine: true,
-            contentPadding: EdgeInsets.all(16.0),
-            onTap: () {},
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) =>
-            const Divider(height: 0.0),
-      ),
-      onRefresh: () async {
-        return Future.delayed(Duration(seconds: 2), () {
-          setState(() {
-            repoList.add(
-                {"title": "BbsonLin/new-item", "description": "", "lang": ""});
+    return Scrollbar(
+      child: RefreshIndicator(
+        child: ListView.separated(
+          itemCount: repoList.length,
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+              title: Text(repoList[index]["title"]),
+              subtitle: Text(repoList[index]["description"]),
+              trailing: Text(repoList[index]["lang"]),
+              isThreeLine: true,
+              contentPadding: EdgeInsets.all(16.0),
+              onTap: () {},
+            );
+          },
+          separatorBuilder: (BuildContext context, int index) =>
+              const Divider(height: 0.0),
+        ),
+        onRefresh: () async {
+          return Future.delayed(Duration(seconds: 2), () {
+            setState(() {
+              repoList.add({
+                "title": "BbsonLin/new-item",
+                "description": "",
+                "lang": ""
+              });
+            });
           });
-        });
-      },
+        },
+      ),
     );
   }
 }
