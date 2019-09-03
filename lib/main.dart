@@ -12,10 +12,14 @@ class GitmeRebornApp extends StatelessWidget {
       title: "Gitme Reborn",
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
+        buttonTheme: ButtonThemeData(
+          buttonColor: Colors.blueGrey,
+          textTheme: ButtonTextTheme.primary,
+        ),
       ),
       routes: {
         GitmeRebornRoutes.login: (context) => LoginPage(),
-        GitmeRebornRoutes.home: (context) => MainPage(),   
+        GitmeRebornRoutes.home: (context) => MainPage(),
       },
       onGenerateRoute: (settings) {
         switch (settings.name) {
