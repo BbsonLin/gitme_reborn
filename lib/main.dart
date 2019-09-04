@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:gitme_reborn/pages/home.dart";
 import "package:gitme_reborn/pages/login.dart";
+import 'package:gitme_reborn/pages/profile/profile.dart';
 import "package:gitme_reborn/routes.dart";
 
 void main() => runApp(GitmeRebornApp());
@@ -20,6 +21,7 @@ class GitmeRebornApp extends StatelessWidget {
       routes: {
         GitmeRebornRoutes.login: (context) => LoginPage(),
         GitmeRebornRoutes.home: (context) => MainPage(),
+        GitmeRebornRoutes.profile: (context) => ProfilePage(),
       },
       onGenerateRoute: (settings) {
         switch (settings.name) {
