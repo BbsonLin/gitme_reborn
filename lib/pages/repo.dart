@@ -30,6 +30,7 @@ class _RepoPageState extends State<RepoPage> {
     return Scrollbar(
       child: RefreshIndicator(
         child: ListView.separated(
+          padding: EdgeInsets.all(0.0),
           itemCount: repoList.length,
           itemBuilder: (BuildContext context, int index) {
             return ListTile(
