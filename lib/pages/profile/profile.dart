@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:gitme_reborn/components/profile/profile_info.dart';
 import 'package:gitme_reborn/pages/repo.dart';
+import 'package:gitme_reborn/pages/profile/follow.dart';
 
 class ProfilePage extends StatelessWidget {
   @override
@@ -43,9 +44,9 @@ class ProfilePage extends StatelessWidget {
           body: TabBarView(
             children: [
               RepoPage(),
-              Text("Stars"),
-              Text("Followers"),
-              Text("Following"),
+              RepoPage(),
+              FollowPage(),
+              FollowPage(),
             ],
           ),
         ),
