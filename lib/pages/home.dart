@@ -84,7 +84,7 @@ class MainPage extends StatelessWidget {
                 icon: Icon(Icons.trending_up),
                 text: "Trending",
                 onPressed: () {
-                  print("Head to Trending Page");
+                  Navigator.of(context).pushNamed("/trending");
                 },
               ),
               DrawerTile(

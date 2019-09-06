@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:gitme_reborn/pages/home.dart";
 import "package:gitme_reborn/pages/login.dart";
 import 'package:gitme_reborn/pages/profile/profile.dart';
+import 'package:gitme_reborn/pages/trending/trending.dart';
 import "package:gitme_reborn/routes.dart";
 
 void main() => runApp(GitmeRebornApp());
@@ -22,6 +23,7 @@ class GitmeRebornApp extends StatelessWidget {
         GitmeRebornRoutes.login: (context) => LoginPage(),
         GitmeRebornRoutes.home: (context) => MainPage(),
         GitmeRebornRoutes.profile: (context) => ProfilePage(),
+        GitmeRebornRoutes.trending: (context) => TrendingPage(),
       },
       onGenerateRoute: (settings) {
         switch (settings.name) {
