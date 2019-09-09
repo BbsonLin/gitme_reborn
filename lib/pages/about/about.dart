@@ -1,6 +1,20 @@
 import "package:flutter/material.dart";
+import 'package:package_info/package_info.dart';
 
-class AboutPage extends StatelessWidget {
+class AboutPage extends StatefulWidget {
+  @override
+  _AboutPageState createState() => _AboutPageState();
+}
+
+class _AboutPageState extends State<AboutPage> {
+  String appVesion = "0.0.0";
+
+  @override
+  void initState() {
+    super.initState();
+    fetchAppVersion();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,8 +49,8 @@ class AboutPage extends StatelessWidget {
                         Text("gitme reborn",
                             style: Theme.of(context).textTheme.title),
                         SizedBox(height: 4.0),
-                        Text("0.0.1",
-                            style: Theme.of(context).textTheme.subtitle),
+                        Text(appVesion,
+                              style: Theme.of(context).textTheme.subtitle),
                       ],
                     ),
                     Column(
@@ -55,5 +69,12 @@ class AboutPage extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Future fetchAppVersion() async {
+    PackageInfo pacakgeInfo = await PackageInfo.fromPlatform();
+    setState(() {
+      appVesion = pacakgeInfo.version;
+    });
   }
 }
