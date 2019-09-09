@@ -91,7 +91,7 @@ class MainPage extends StatelessWidget {
                 icon: Icon(Icons.settings),
                 text: "Setting",
                 onPressed: () {
-                  print("Head to Setting Page");
+                  Navigator.of(context).pushNamed("/setting");
                 },
               ),
               DrawerTile(
