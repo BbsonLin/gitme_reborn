@@ -1,11 +1,13 @@
 import "package:flutter/material.dart";
+
+import "package:gitme_reborn/routes.dart";
 import "package:gitme_reborn/pages/home.dart";
 import "package:gitme_reborn/pages/login.dart";
+import 'package:gitme_reborn/pages/about/about.dart';
 import 'package:gitme_reborn/pages/profile/profile.dart';
 import 'package:gitme_reborn/pages/setting/setting.dart';
 import 'package:gitme_reborn/pages/setting/setting_language.dart';
 import 'package:gitme_reborn/pages/trending/trending.dart';
-import "package:gitme_reborn/routes.dart";
 
 void main() => runApp(GitmeRebornApp());
 
@@ -27,7 +29,8 @@ class GitmeRebornApp extends StatelessWidget {
         GitmeRebornRoutes.profile: (context) => ProfilePage(),
         GitmeRebornRoutes.trending: (context) => TrendingPage(),
         GitmeRebornRoutes.setting: (context) => SettingPage(),
-        GitmeRebornRoutes.settingLanguage: (context) => SettingLanguagePage(),   
+        GitmeRebornRoutes.settingLanguage: (context) => SettingLanguagePage(),
+        GitmeRebornRoutes.about: (context) => AboutPage(),    
       },
       onGenerateRoute: (settings) {
         switch (settings.name) {

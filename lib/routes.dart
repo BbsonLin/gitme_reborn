@@ -7,4 +7,5 @@ class GitmeRebornRoutes {
   static const trending = "/trending";
   static const setting = "/setting";
   static const settingLanguage = "/setting/language";
+  static const about = "/about";
 }

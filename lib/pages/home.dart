@@ -98,7 +98,7 @@ class MainPage extends StatelessWidget {
                 icon: Icon(Icons.info),
                 text: "About",
                 onPressed: () {
-                  print("Head to About Page");
+                  Navigator.of(context).pushNamed("/about");
                 },
               ),
               DrawerTile(
