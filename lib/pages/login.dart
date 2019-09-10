@@ -20,61 +20,68 @@ class _LoginPageState extends State<LoginPage> {
             title: Text("Login"),
           ),
           body: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.person),
-                      labelText: "Name *",
-                      hintText: "Your Github account username",
-                    ),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 24.0),
+              child: Column(
+                children: <Widget>[
+                  Image.asset(
+                    "assets/images/gitme-github-auth-trans.png",
+                    width: MediaQuery.of(context).size.width / 2,
                   ),
-                ),
-                Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-                  child: TextFormField(
-                    obscureText: _obscureText,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.lock),
-                      suffixIcon: IconButton(
-                        icon: _obscureText
-                            ? Icon(Icons.visibility_off)
-                            : Icon(Icons.visibility),
-                        onPressed: () {
-                          setState(() {
-                            _obscureText = !_obscureText;
-                          });
-                        },
+                  Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.person),
+                        labelText: "Name *",
+                        hintText: "Your Github account username",
                       ),
-                      labelText: "Password *",
-                      hintText: "Your Github account password",
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 52.0,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width - 48.0,
-                  height: 48.0,
-                  child: RaisedButton(
-                    child: Text("Login"),
-                    onPressed: () {
-                      final progress = ProgressHUD.of(context);
-                      progress.showWithText("Loading...");
-                      FocusScope.of(context).requestFocus(new FocusNode());
-                      Future.delayed(Duration(seconds: 1), () {
-                        Navigator.pushReplacementNamed(context, "/home");
-                        progress.dismiss();
-                      });
-                    },
+                  Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                    child: TextFormField(
+                      obscureText: _obscureText,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.lock),
+                        suffixIcon: IconButton(
+                          icon: _obscureText
+                              ? Icon(Icons.visibility_off)
+                              : Icon(Icons.visibility),
+                          onPressed: () {
+                            setState(() {
+                              _obscureText = !_obscureText;
+                            });
+                          },
+                        ),
+                        labelText: "Password *",
+                        hintText: "Your Github account password",
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: 52.0,
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width - 48.0,
+                    height: 48.0,
+                    child: RaisedButton(
+                      child: Text("Login"),
+                      onPressed: () {
+                        final progress = ProgressHUD.of(context);
+                        progress.showWithText("Loading...");
+                        FocusScope.of(context).requestFocus(new FocusNode());
+                        Future.delayed(Duration(seconds: 1), () {
+                          Navigator.pushReplacementNamed(context, "/home");
+                          progress.dismiss();
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
