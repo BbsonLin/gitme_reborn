@@ -5,6 +5,7 @@ import 'package:gitme_reborn/pages/activity.dart';
 import 'package:gitme_reborn/pages/issue.dart';
 import 'package:gitme_reborn/pages/repo.dart';
 import 'package:gitme_reborn/pages/search.dart';
+import 'package:gitme_reborn/utils.dart';
 import 'package:hnpwa_client/hnpwa_client.dart';
 
 // 主頁面
@@ -276,7 +277,7 @@ class _HomePageState extends State<HomePage> {
                   title: Text(item.title),
                   subtitle:
                       Text("by ${item.user} | ${item.commentsCount} comments"),
-                  onTap: () {},
+                  onTap: () => launchURL(item.url),
                 );
               }).toList())
           .toList();
@@ -299,7 +300,7 @@ class _HomePageState extends State<HomePage> {
                   title: Text(item.title),
                   subtitle:
                       Text("by ${item.user} | ${item.commentsCount} comments"),
-                  onTap: () {},
+                  onTap: () => launchURL(item.url),
                 );
               }).toList())
           .toList();
