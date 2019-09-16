@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import "package:gitme_reborn/routes.dart";
 import "package:gitme_reborn/pages/home.dart";
@@ -9,7 +10,10 @@ import 'package:gitme_reborn/pages/setting/setting.dart';
 import 'package:gitme_reborn/pages/setting/setting_language.dart';
 import 'package:gitme_reborn/pages/trending/trending.dart';
 
-void main() => runApp(GitmeRebornApp());
+Future main() async {
+  await DotEnv().load('.env');
+  runApp(GitmeRebornApp());
+}
 
 class GitmeRebornApp extends StatelessWidget {
   @override
