@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:github/server.dart';
+import 'package:gitme_reborn/services/github_api.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class IssuePage extends StatefulWidget {
   @override
@@ -6,39 +9,71 @@ class IssuePage extends StatefulWidget {
 }
 
 class _IssuePageState extends State<IssuePage> {
-  final List issueList = [
-    {
-      "title": "Include additional log fields #1",
-      "time": "11 days ago",
-    },
-    {
-      "title": "AdPlayer Widget #1",
-      "time": "3 months ago",
-    },
-  ];
+  Future<List<Issue>> issueList;
+
+  @override
+  void initState() {
+    super.initState();
+    issueList = fetchIssues();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scrollbar(
       child: RefreshIndicator(
-        child: ListView.separated(
-          itemCount: issueList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              leading: Icon(Icons.account_circle),
-              title: Text(issueList[index]["title"]),
-              subtitle: Text(issueList[index]["time"]),
-              trailing: Icon(Icons.star),
-              onTap: () {},
-            );
+        child: FutureBuilder(
+          future: issueList,
+          builder: (BuildContext context, AsyncSnapshot<List<Issue>> snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.done:
+                if (!snapshot.hasError) {
+                  return ListView.separated(
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final now = DateTime.now();
+                      final difference =
+                          now.difference(snapshot.data[index].createdAt);
+                      var createTimeAgo =
+                          timeago.format(now.subtract(difference));
+
+                      return ListTile(
+                        dense: true,
+                        leading: CircleAvatar(
+                          radius: 18.0,
+                          backgroundImage:
+                              NetworkImage(snapshot.data[index].user.avatarUrl),
+                        ),
+                        title: Text(snapshot.data[index].title),
+                        subtitle: Text(createTimeAgo),
+                        trailing: Icon(Icons.error_outline),
+                        onTap: () {},
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) =>
+                        const Divider(height: 0.0),
+                  );
+                } else {
+                  return Center(child: Text("No Data"));
+                }
+                break;
+              case ConnectionState.none:
+              case ConnectionState.active:
+              case ConnectionState.waiting:
+                return Center(child: CircularProgressIndicator());
+            }
           },
-          separatorBuilder: (BuildContext context, int index) =>
-              const Divider(height: 0.0),
         ),
-        onRefresh: () {
-          return Future.delayed(Duration(seconds: 2));
+        onRefresh: () async {
+          await Future.delayed(Duration(seconds: 1));
+          setState(() {
+            issueList = fetchIssues();
+          });
         },
       ),
     );
+  }
+
+  Future<List<Issue>> fetchIssues() async {
+    return githubClient.issues.listAll(state: "all").toList();
   }
 }

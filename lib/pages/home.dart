@@ -255,10 +255,12 @@ class _HomePageState extends State<HomePage> {
   Future fetchHNData() async {
     Feed hnNew = await hnClient.news();
     Feed hnNewest = await hnClient.newest();
-    setState(() {
-      _hnTops = hnNew.items;
-      _hnNews = hnNewest.items;
-    });
+    if (this.mounted) {
+      setState(() {
+        _hnTops = hnNew.items;
+        _hnNews = hnNewest.items;
+      });
+    }
   }
 
   buildHNTopStories(BuildContext context) {
