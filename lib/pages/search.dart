@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:github/server.dart';
+import 'package:gitme_reborn/components/github_tiles.dart';
+import 'package:gitme_reborn/services/github_api.dart';
 
 enum SearchTypes {
   repos,
@@ -56,7 +59,10 @@ class GitmeRebornSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return SearchRepoResult();
+    return SearchResult(
+      query: query,
+      searchType: _searchType,
+    );
   }
 
   @override
@@ -102,48 +108,92 @@ class GitmeRebornSearchDelegate extends SearchDelegate {
         default:
       }
     }
-    return Center(child: Text("Search for $query ..."));
+    return Center(child: Text("Search ${_searchType.toString().split(".")[1]} that contain \"$query\" ..."));
   }
 }
 
-class SearchRepoResult extends StatelessWidget {
-  final List repoList = [
-    {
-      "title": "flutterchina/gitme",
-      "description": "Flutter开发的一款Github客户端。 A Github client APP developed with Flutter, and It both supports Android and iOS.\n\n★ 975",
-      "lang": ""
-    },
-    {
-      "title": "imsun/gitment",
-      "description":
-          "A comment system based on GitHub Issues.\n\n★ 3.5k",
-      "lang": "● JavaScript"
-    },
-    {
-      "title": "BbsonLin/gitme_reborn",
-      "description": "No description provided.\n\n★ 0",
-      "lang": "● Dart"
-    },
-  ];
+class SearchResult extends StatefulWidget {
+  const SearchResult({
+    Key key,
+    this.query,
+    this.searchType,
+  }) : super(key: key);
+
+  final String query;
+  final SearchTypes searchType;
+
+  @override
+  _SearchRepoResultState createState() => _SearchRepoResultState();
+}
+
+class _SearchRepoResultState extends State<SearchResult> {
+  Future<List> searchResultList;
+
+  @override
+  void initState() {
+    super.initState();
+    switch (widget.searchType) {
+      case SearchTypes.repos:
+        searchResultList = searchRepos(widget.query);
+        break;
+      case SearchTypes.users:
+        searchResultList = searchUsers(widget.query);
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: ListView.separated(
-        itemCount: repoList.length,
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Text(repoList[index]["title"]),
-            subtitle: Text(repoList[index]["description"]),
-            trailing: Text(repoList[index]["lang"]),
-            isThreeLine: true,
-            contentPadding: EdgeInsets.all(16.0),
-            onTap: () {},
-          );
+      child: FutureBuilder(
+        future: searchResultList,
+        builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.done:
+              if (!snapshot.hasError) {
+                return ListView.separated(
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    switch (widget.searchType) {
+                      case SearchTypes.repos:
+                        return RepoTile(
+                          name:
+                              "${snapshot.data[index].owner.login}/${snapshot.data[index].name}",
+                          description: snapshot.data[index].description,
+                          stars: snapshot.data[index].stargazersCount,
+                          language: snapshot.data[index].language,
+                        );
+                      case SearchTypes.users:
+                        print(snapshot.data[index].avatarUrl);
+                        print(snapshot.data[index].name);
+                        return UserTile(
+                          avatarUrl: snapshot.data[index].avatarUrl,
+                          name: snapshot.data[index].login,
+                        );
+                    }
+                  },
+                  separatorBuilder: (BuildContext context, int index) =>
+                      const Divider(height: 0.0),
+                );
+              } else {
+                return Center(child: Text("No Data"));
+              }
+              break;
+            case ConnectionState.none:
+            case ConnectionState.active:
+            case ConnectionState.waiting:
+              return Center(child: CircularProgressIndicator());
+          }
         },
-        separatorBuilder: (BuildContext context, int index) =>
-            const Divider(height: 0.0),
       ),
     );
+  }
+
+  Future<List<Repository>> searchRepos(String searchQuery) async {
+    return githubClient.search.repositories(searchQuery).toList();
+  }
+
+  Future<List<User>> searchUsers(String searchQuery) async {
+    return githubClient.search.users(searchQuery).toList();
   }
 }
