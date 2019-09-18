@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:timeago/timeago.dart' as timeago;
 
 class RepoTile extends StatelessWidget {
   const RepoTile({
@@ -62,4 +63,34 @@ class UserTile extends StatelessWidget {
 
 // TODO: ActivityTile
 
-// TODO: IssueTile
+class IssueTile extends StatelessWidget {
+  const IssueTile({
+    Key key,
+    @required this.userAvatarUrl,
+    @required this.title,
+    @required this.createTime,
+  }) : super(key: key);
+
+  final String userAvatarUrl;
+  final String title;
+  final DateTime createTime;
+
+  @override
+  Widget build(BuildContext context) {
+    final now = DateTime.now();
+    final difference = now.difference(createTime);
+    final createTimeAgo = timeago.format(now.subtract(difference));
+
+    return ListTile(
+      dense: true,
+      leading: CircleAvatar(
+        radius: 18.0,
+        backgroundImage: NetworkImage(userAvatarUrl),
+      ),
+      title: Text(title),
+      subtitle: Text(createTimeAgo),
+      trailing: Icon(Icons.error_outline),
+      onTap: () {},
+    );
+  }
+}

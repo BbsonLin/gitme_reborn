@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:github/server.dart';
+import 'package:gitme_reborn/components/github_tiles.dart';
 import 'package:gitme_reborn/services/github_api.dart';
 
 class RepoPage extends StatefulWidget {
@@ -31,26 +32,12 @@ class _RepoPageState extends State<RepoPage> {
                     padding: EdgeInsets.all(0.0),
                     itemCount: snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return ListTile(
-                        title: Text(
-                            "${snapshot.data[index].owner.login}/${snapshot.data[index].name}"),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            SizedBox(height: 8.0),
-                            snapshot.data[index].description != null
-                                ? Text(snapshot.data[index].description)
-                                : Text("No description provided."),
-                            SizedBox(height: 8.0),
-                            Text("★ ${snapshot.data[index].stargazersCount}"),
-                          ],
-                        ),
-                        trailing: snapshot.data[index].language != null
-                            ? Text(snapshot.data[index].language)
-                            : SizedBox(),
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: 8.0, horizontal: 16.0),
-                        onTap: () {},
+                      return RepoTile(
+                        name:
+                            "${snapshot.data[index].owner.login}/${snapshot.data[index].name}",
+                        description: snapshot.data[index].description,
+                        stars: snapshot.data[index].stargazersCount,
+                        language: snapshot.data[index].language,
                       );
                     },
                     separatorBuilder: (BuildContext context, int index) =>
