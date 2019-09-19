@@ -108,7 +108,9 @@ class GitmeRebornSearchDelegate extends SearchDelegate {
         default:
       }
     }
-    return Center(child: Text("Search ${_searchType.toString().split(".")[1]} that contain \"$query\" ..."));
+    return Center(
+        child: Text(
+            "Search ${_searchType.toString().split(".")[1]} that contain \"$query\" ..."));
   }
 }
 
@@ -144,45 +146,60 @@ class _SearchRepoResultState extends State<SearchResult> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: FutureBuilder(
-        future: searchResultList,
-        builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              if (!snapshot.hasError) {
-                return ListView.separated(
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    switch (widget.searchType) {
-                      case SearchTypes.repos:
-                        return RepoTile(
-                          name:
-                              "${snapshot.data[index].owner.login}/${snapshot.data[index].name}",
-                          description: snapshot.data[index].description,
-                          stars: snapshot.data[index].stargazersCount,
-                          language: snapshot.data[index].language,
-                        );
-                      case SearchTypes.users:
-                        print(snapshot.data[index].avatarUrl);
-                        print(snapshot.data[index].name);
-                        return UserTile(
-                          avatarUrl: snapshot.data[index].avatarUrl,
-                          name: snapshot.data[index].login,
-                        );
-                    }
-                  },
-                  separatorBuilder: (BuildContext context, int index) =>
-                      const Divider(height: 0.0),
-                );
-              } else {
-                return Center(child: Text("No Data"));
-              }
+    return Scrollbar(
+      child: RefreshIndicator(
+        child: FutureBuilder(
+          future: searchResultList,
+          builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.done:
+                if (!snapshot.hasError) {
+                  return ListView.separated(
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      switch (widget.searchType) {
+                        case SearchTypes.repos:
+                          return RepoTile(
+                            name:
+                                "${snapshot.data[index].owner.login}/${snapshot.data[index].name}",
+                            description: snapshot.data[index].description,
+                            stars: snapshot.data[index].stargazersCount,
+                            language: snapshot.data[index].language,
+                          );
+                        case SearchTypes.users:
+                          return UserTile(
+                            avatarUrl: snapshot.data[index].avatarUrl,
+                            name: snapshot.data[index].login,
+                          );
+                      }
+                    },
+                    separatorBuilder: (BuildContext context, int index) =>
+                        const Divider(height: 0.0),
+                  );
+                } else {
+                  return Center(child: Text("No Data"));
+                }
+                break;
+              case ConnectionState.none:
+              case ConnectionState.active:
+              case ConnectionState.waiting:
+                return Center(child: CircularProgressIndicator());
+            }
+          },
+        ),
+        onRefresh: () async {
+          await Future.delayed(Duration(seconds: 1));
+          switch (widget.searchType) {
+            case SearchTypes.repos:
+              setState(() {
+                searchResultList = searchRepos(widget.query);
+              });
               break;
-            case ConnectionState.none:
-            case ConnectionState.active:
-            case ConnectionState.waiting:
-              return Center(child: CircularProgressIndicator());
+            case SearchTypes.users:
+              setState(() {
+                searchResultList = searchUsers(widget.query);
+              });
+              break;
           }
         },
       ),
@@ -190,10 +207,10 @@ class _SearchRepoResultState extends State<SearchResult> {
   }
 
   Future<List<Repository>> searchRepos(String searchQuery) async {
-    return githubClient.search.repositories(searchQuery).toList();
+    return githubClient.search.repositories(searchQuery, pages: 1).toList();
   }
 
   Future<List<User>> searchUsers(String searchQuery) async {
-    return githubClient.search.users(searchQuery).toList();
+    return githubClient.search.users(searchQuery, pages: 1).toList();
   }
 }
