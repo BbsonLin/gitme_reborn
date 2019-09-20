@@ -35,9 +35,16 @@ dependencies:
   hnpwa_client: ^2.0.0
   github: ^5.1.0
 
+  # JSON Parsing
+  json_annotation: ^3.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  # JSON Parsing
+  build_runner: ^1.0.0
+  json_serializable: ^3.2.0
 
 
 # For information on the generic Dart part of this file, see the
