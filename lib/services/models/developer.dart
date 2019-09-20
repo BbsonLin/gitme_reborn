@@ -2,6 +2,7 @@ import "package:json_annotation/json_annotation.dart";
 
 part "developer.g.dart";
 
+// Correspond Reponse JSON: https://github.com/huchenme/github-trending-api#trending-developers
 @JsonSerializable()
 class Developer {
   final String username;
