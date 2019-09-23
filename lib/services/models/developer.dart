@@ -30,8 +30,9 @@ class Developer {
 @JsonSerializable()
 class Repo {
   final String name;
+  final String description;
 
-  Repo(this.name);
+  Repo(this.name, this.description);
 
   factory Repo.fromJson(Map<String, dynamic> json) => _$RepoFromJson(json);
 

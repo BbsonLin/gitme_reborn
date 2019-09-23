@@ -61,3 +61,5 @@ class GitHubTrendingApiClient {
         .toList();
   }
 }
+
+GitHubTrendingApiClient githubTrendingClient = GitHubTrendingApiClient();

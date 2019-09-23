@@ -31,9 +31,11 @@ Map<String, dynamic> _$DeveloperToJson(Developer instance) => <String, dynamic>{
 Repo _$RepoFromJson(Map<String, dynamic> json) {
   return Repo(
     json['name'] as String,
+    json['description'] as String,
   );
 }
 
 Map<String, dynamic> _$RepoToJson(Repo instance) => <String, dynamic>{
       'name': instance.name,
+      'description': instance.description,
     };
