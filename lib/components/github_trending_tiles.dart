@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
+import 'package:gitme_reborn/components/github_language_label.dart';
 import 'package:gitme_reborn/services/models/developer.dart';
-import 'package:gitme_reborn/utils.dart';
 import 'package:gitme_reborn/services/models/project.dart';
 
 class ProjectTile extends StatelessWidget {
@@ -48,19 +48,10 @@ class ProjectTile extends StatelessWidget {
           )
         ],
       ),
-      trailing: language != null
-          ? Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Text(
-                  "● ",
-                  style: TextStyle(
-                      color: hexToColor(languageColor), fontSize: 24.0),
-                ),
-                Text(language),
-              ],
-            )
-          : SizedBox(),
+      trailing: GithubLanguageLabel(
+        language: language,
+        languageHexColor: languageColor,
+      ),
       contentPadding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       onTap: onPressed,
     );

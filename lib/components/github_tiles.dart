@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:gitme_reborn/components/github_language_label.dart';
 
 class RepoTile extends StatelessWidget {
   const RepoTile({
@@ -30,7 +31,9 @@ class RepoTile extends StatelessWidget {
           Text("★ $stars"),
         ],
       ),
-      trailing: language != null ? Text(language) : SizedBox(),
+      trailing: GithubLanguageLabel(
+        language: language,
+      ),
       contentPadding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       onTap: () {},
     );

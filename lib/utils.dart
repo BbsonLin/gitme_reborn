@@ -1,8 +1,22 @@
+import 'dart:convert';
+
 import "package:flutter/material.dart";
+import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 Color hexToColor(String code) {
-  return new Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
+  return Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
+}
+
+Future<String> searchLanguageColorHexCode(String language) async {
+  String githubColors =
+      await rootBundle.loadString("assets/data/github-colors.json");
+  var githubColorsMap = jsonDecode(githubColors);
+  if (language != null) {
+    return githubColorsMap[language]["color"];
+  } else {
+    return null;
+  }
 }
 
 Future launchURL(url) async {

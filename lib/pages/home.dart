@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gitme_reborn/components/github_language_label.dart';
 import 'package:hnpwa_client/hnpwa_client.dart';
 import 'package:gitme_reborn/components/circle_avatar_button.dart';
 import 'package:gitme_reborn/components/drawer_tile.dart';
@@ -292,7 +293,10 @@ class _HomePageState extends State<HomePage> {
                   title: Text("${project.fullName}"),
                   subtitle: Row(
                     children: <Widget>[
-                      Text("${project.language}"),
+                      GithubLanguageLabel(
+                        language: project.language,
+                        languageHexColor: project.languageColor,
+                      ),
                       SizedBox(width: 16.0),
                       Text("★ ${project.stars}"),
                     ],
