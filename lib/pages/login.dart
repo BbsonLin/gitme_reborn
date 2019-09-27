@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
+import 'package:gitme_reborn/services/github_api.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -8,6 +9,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool _obscureText = true;
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +35,7 @@ class _LoginPageState extends State<LoginPage> {
                     padding:
                         EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
                     child: TextFormField(
+                      controller: usernameController,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.person),
                         labelText: "Name *",
@@ -43,6 +47,7 @@ class _LoginPageState extends State<LoginPage> {
                     padding:
                         EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
                     child: TextFormField(
+                      controller: passwordController,
                       obscureText: _obscureText,
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.lock),
@@ -73,8 +78,17 @@ class _LoginPageState extends State<LoginPage> {
                         final progress = ProgressHUD.of(context);
                         progress.showWithText("Loading...");
                         FocusScope.of(context).requestFocus(new FocusNode());
-                        Future.delayed(Duration(seconds: 1), () {
-                          Navigator.pushReplacementNamed(context, "/home");
+                        Future.delayed(Duration(milliseconds: 500), () async {
+                          try {
+                            githubClient = getGithubApiClient(
+                              username: usernameController.text,
+                              password: passwordController.text,
+                            );
+                            await githubClient.users.getCurrentUser();
+                            Navigator.pushReplacementNamed(context, "/home");
+                          } catch (e) {
+                            print(e);
+                          }
                           progress.dismiss();
                         });
                       },
