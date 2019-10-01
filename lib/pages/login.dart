@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
+import 'package:gitme_reborn/components/github_login_form.dart';
 import 'package:gitme_reborn/services/github_api.dart';
 
 class LoginPage extends StatefulWidget {
@@ -8,10 +9,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  bool _obscureText = true;
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return ProgressHUD(
@@ -23,79 +20,29 @@ class _LoginPageState extends State<LoginPage> {
             title: Text("Login"),
           ),
           body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 24.0),
-              child: Column(
-                children: <Widget>[
-                  Image.asset(
-                    "assets/images/gitme-github-auth-trans.png",
-                    width: MediaQuery.of(context).size.width / 2,
-                  ),
-                  Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-                    child: TextFormField(
-                      controller: usernameController,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.person),
-                        labelText: "Name *",
-                        hintText: "Your Github account username",
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-                    child: TextFormField(
-                      controller: passwordController,
-                      obscureText: _obscureText,
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.lock),
-                        suffixIcon: IconButton(
-                          icon: _obscureText
-                              ? Icon(Icons.visibility_off)
-                              : Icon(Icons.visibility),
-                          onPressed: () {
-                            setState(() {
-                              _obscureText = !_obscureText;
-                            });
-                          },
-                        ),
-                        labelText: "Password *",
-                        hintText: "Your Github account password",
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 52.0,
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width - 48.0,
-                    height: 48.0,
-                    child: RaisedButton(
-                      child: Text("Login"),
-                      onPressed: () {
-                        final progress = ProgressHUD.of(context);
-                        progress.showWithText("Loading...");
-                        FocusScope.of(context).requestFocus(new FocusNode());
-                        Future.delayed(Duration(milliseconds: 500), () async {
-                          try {
-                            githubClient = getGithubApiClient(
-                              username: usernameController.text,
-                              password: passwordController.text,
-                            );
-                            await githubClient.users.getCurrentUser();
-                            Navigator.pushReplacementNamed(context, "/home");
-                          } catch (e) {
-                            print(e);
-                          }
-                          progress.dismiss();
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
+            child: GithubLoginForm(
+              onLogin: (state) {
+                if (state.formKey.currentState.validate()) {
+                  final progress = ProgressHUD.of(context);
+                  progress.showWithText("Loading...");
+                  FocusScope.of(context).requestFocus(new FocusNode());
+                  Future.delayed(Duration(milliseconds: 500), () async {
+                    try {
+                      githubClient = getGithubApiClient(
+                        username: state.usernameController.text,
+                        password: state.passwordController.text,
+                      );
+                      await githubClient.users.getCurrentUser();
+                      Navigator.pushReplacementNamed(context, "/home");
+                    } catch (e) {
+                      print(e);
+                    }
+                    progress.dismiss();
+                  });
+                } else {
+                  print("validate failed...");
+                }
+              },
             ),
           ),
         ),
