@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gitme_reborn/components/github_language_label.dart';
 import 'package:hnpwa_client/hnpwa_client.dart';
+import 'package:provider/provider.dart';
+
+import 'package:gitme_reborn/components/github_language_label.dart';
+import 'package:gitme_reborn/stores/account.dart';
 import 'package:gitme_reborn/components/circle_avatar_button.dart';
 import 'package:gitme_reborn/components/drawer_tile.dart';
 import 'package:gitme_reborn/pages/activity.dart';
@@ -17,6 +20,8 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var account = Provider.of<AccountModel>(context);
+    
     return DefaultTabController(
       length: 4,
       child: Scaffold(
@@ -24,9 +29,7 @@ class MainPage extends StatelessWidget {
         appBar: AppBar(
           titleSpacing: 0.0,
           leading: CircleAvatarButton(
-            avatarImage: NetworkImage(
-              "https://avatars2.githubusercontent.com/u/18156421?s=400&u=1f91dcf74134827fde071751f95522845223ed6a&v=4",
-            ),
+            avatarImage: NetworkImage(account.profile.avatarUrl),
             onPressed: () => _scaffoldKey.currentState.openDrawer(),
           ),
           title: TabBar(
@@ -66,13 +69,11 @@ class MainPage extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.blueGrey,
                 ),
-                accountName: Text("Bbson Lin"),
-                accountEmail: Text("bobson801104@gmail.com"),
+                accountName: Text(account.profile.login),
+                accountEmail: Text(account.profile.email),
                 currentAccountPicture: GestureDetector(
                   child: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                      "https://avatars2.githubusercontent.com/u/18156421?s=400&u=1f91dcf74134827fde071751f95522845223ed6a&v=4",
-                    ),
+                    backgroundImage: NetworkImage(account.profile.avatarUrl),
                   ),
                   onTap: () => Navigator.of(context).pushNamed("/profile"),
                 ),

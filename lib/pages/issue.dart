@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:github/server.dart';
 import 'package:gitme_reborn/components/github_tiles.dart';
 import 'package:gitme_reborn/services/github_api.dart';
+import 'package:gitme_reborn/stores/account.dart';
+import 'package:gitme_reborn/utils.dart';
+import 'package:provider/provider.dart';
 
 class IssuePage extends StatefulWidget {
   @override
@@ -9,58 +12,45 @@ class IssuePage extends StatefulWidget {
 }
 
 class _IssuePageState extends State<IssuePage> {
-  Future<List<Issue>> issueList;
-
-  @override
-  void initState() {
-    super.initState();
-    issueList = fetchIssues();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scrollbar(
-      child: RefreshIndicator(
-        child: FutureBuilder(
-          future: issueList,
-          builder: (BuildContext context, AsyncSnapshot<List<Issue>> snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.done:
-                if (!snapshot.hasError) {
-                  return ListView.separated(
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return IssueTile(
-                        userAvatarUrl: snapshot.data[index].user.avatarUrl,
-                        title: snapshot.data[index].title,
-                        createTime: snapshot.data[index].createdAt,
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) =>
-                        const Divider(height: 0.0),
-                  );
-                } else {
-                  return Center(child: Text("No Data"));
-                }
-                break;
-              case ConnectionState.none:
-              case ConnectionState.active:
-              case ConnectionState.waiting:
-                return Center(child: CircularProgressIndicator());
-            }
-          },
-        ),
-        onRefresh: () async {
-          await Future.delayed(Duration(seconds: 1));
-          setState(() {
-            issueList = fetchIssues();
-          });
-        },
-      ),
+    return Consumer<AccountModel>(
+      builder: (BuildContext context, account, Widget child) {
+        if (account.issues == null) {
+          account.fetchIssues();
+          return Center(child: CircularProgressIndicator());
+        } else {
+          return Scrollbar(
+            child: RefreshIndicator(
+              child: buildIssueListView(account.issues),
+              onRefresh: () async {
+                await Future.delayed(Duration(seconds: 1));
+                await account.refreshIssues();
+                showNotify(message: "Refresh done");
+              },
+            ),
+          );
+        }
+      },
     );
   }
 
   Future<List<Issue>> fetchIssues() async {
     return githubClient.issues.listAll(state: "all").toList();
+  }
+
+  ListView buildIssueListView(List<Issue> issues) {
+    return ListView.separated(
+      itemCount: issues.length,
+      itemBuilder: (BuildContext context, int index) {
+        return IssueTile(
+          userAvatarUrl: issues[index].user.avatarUrl,
+          title: issues[index].title,
+          createTime: issues[index].createdAt,
+        );
+      },
+      separatorBuilder: (BuildContext context, int index) =>
+          const Divider(height: 0.0),
+    );
   }
 }

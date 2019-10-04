@@ -22,9 +22,11 @@ class _GithubLanguageLabelState extends State<GithubLanguageLabel> {
   void initState() {
     super.initState();
     searchLanguageColorHexCode(widget.language).then((labelHexCode) {
-      setState(() {
-        _labelHexCode = labelHexCode;
-      });
+      if (mounted) {
+        setState(() {
+          _labelHexCode = labelHexCode;
+        });
+      }
     });
   }
 
@@ -35,7 +37,8 @@ class _GithubLanguageLabelState extends State<GithubLanguageLabel> {
     if (widget.languageHexColor != null) {
       labelColor = hexToColor(widget.languageHexColor);
     } else if (widget.language != null) {
-      labelColor = _labelHexCode != null ? hexToColor(_labelHexCode) : Colors.black;
+      labelColor =
+          _labelHexCode != null ? hexToColor(_labelHexCode) : Colors.black;
     }
 
     if (widget.language != null) {

@@ -39,6 +39,9 @@ dependencies:
   # JSON Parsing
   json_annotation: ^3.0.0
 
+  # State Management
+  provider: ^3.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

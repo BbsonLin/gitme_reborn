@@ -4,6 +4,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:github/server.dart';
 import 'package:gitme_reborn/components/github_login_form.dart';
 import 'package:gitme_reborn/services/github_api.dart';
+import 'package:gitme_reborn/stores/account.dart';
+import 'package:gitme_reborn/utils.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -13,6 +16,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
+    var account = Provider.of<AccountModel>(context);
+
     return ProgressHUD(
       backgroundColor: Colors.black87,
       textStyle: Theme.of(context).accentTextTheme.subtitle,
@@ -36,27 +41,21 @@ class _LoginPageState extends State<LoginPage> {
                       );
                       User currentUser =
                           await githubClient.users.getCurrentUser();
-                      Fluttertoast.showToast(
-                        msg: "Welcome ${currentUser.login} ~~",
-                        toastLength: Toast.LENGTH_LONG,
-                      );
+                      account.updateUser(currentUser);
+                      showNotify(message: "Welcome ${currentUser.login} ~~");
                       Navigator.pushReplacementNamed(context, "/home");
                     } catch (e) {
-                      Fluttertoast.showToast(
-                        msg: "Uh oh, your username or password is wrong...",
-                        toastLength: Toast.LENGTH_LONG,
-                        textColor: Colors.black38,
-                        backgroundColor: Colors.deepOrange[300],
+                      showNotify(
+                        message: "Uh oh, your username or password is wrong...",
+                        type: NotifyType.error,
                       );
                     }
                     progress.dismiss();
                   });
                 } else {
-                  Fluttertoast.showToast(
-                    msg: "Please enter required fields.",
-                    toastLength: Toast.LENGTH_LONG,
-                    textColor: Colors.black38,
-                    backgroundColor: Colors.amber,
+                  showNotify(
+                    message: "Please enter required fields.",
+                    type: NotifyType.warning,
                   );
                 }
               },

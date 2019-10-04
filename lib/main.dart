@@ -9,10 +9,17 @@ import 'package:gitme_reborn/pages/profile/profile.dart';
 import 'package:gitme_reborn/pages/setting/setting.dart';
 import 'package:gitme_reborn/pages/setting/setting_language.dart';
 import 'package:gitme_reborn/pages/trending/trending.dart';
+import 'package:gitme_reborn/stores/account.dart';
+import 'package:provider/provider.dart';
 
 Future main() async {
   await DotEnv().load('.env');
-  runApp(GitmeRebornApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(builder: (BuildContext context) => AccountModel()),
+    ],
+    child: GitmeRebornApp(),
+  ));
 }
 
 class GitmeRebornApp extends StatelessWidget {
@@ -34,7 +41,7 @@ class GitmeRebornApp extends StatelessWidget {
         GitmeRebornRoutes.trending: (context) => TrendingPage(),
         GitmeRebornRoutes.setting: (context) => SettingPage(),
         GitmeRebornRoutes.settingLanguage: (context) => SettingLanguagePage(),
-        GitmeRebornRoutes.about: (context) => AboutPage(),    
+        GitmeRebornRoutes.about: (context) => AboutPage(),
       },
       onGenerateRoute: (settings) {
         switch (settings.name) {
