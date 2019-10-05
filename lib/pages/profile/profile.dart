@@ -19,7 +19,6 @@ class ProfilePage extends StatelessWidget {
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverAppBar(
-                title: Text(account.profile.login),
                 pinned: true,
                 expandedHeight: 250.0,
                 flexibleSpace: FlexibleSpaceBar(
@@ -37,20 +36,20 @@ class ProfilePage extends StatelessWidget {
                   ),
                 ),
                 bottom: TabBar(
-                  labelPadding: EdgeInsets.zero,
+                  isScrollable: true,
                   tabs: <Widget>[
                     BadgeTab(
-                      text: "Repos",
-                      count: "${account.profile.publicReposCount}",
+                      labelText: "Repos",
+                      badgeText: "${account.profile.publicReposCount}",
                     ),
-                    BadgeTab(text: "Stars"),
+                    BadgeTab(labelText: "Stars"),
                     BadgeTab(
-                      text: "Followers",
-                      count: "${account.profile.followersCount}",
+                      labelText: "Followers",
+                      badgeText: "${account.profile.followersCount}",
                     ),
                     BadgeTab(
-                      text: "Following",
-                      count: "${account.profile.followingCount}",
+                      labelText: "Following",
+                      badgeText: "${account.profile.followingCount}",
                     ),
                   ],
                 ),
@@ -75,12 +74,12 @@ class ProfilePage extends StatelessWidget {
 class BadgeTab extends StatelessWidget {
   const BadgeTab({
     Key key,
-    @required this.text,
-    this.count,
+    @required this.labelText,
+    this.badgeText,
   }) : super(key: key);
 
-  final String text;
-  final String count;
+  final String labelText;
+  final String badgeText;
 
   @override
   Widget build(BuildContext context) {
@@ -88,16 +87,16 @@ class BadgeTab extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text("Repos"),
-          if (count != null) SizedBox(width: 4.0),
-          if (count != null)
+          Text(labelText),
+          if (badgeText != null) SizedBox(width: 4.0),
+          if (badgeText != null)
             Badge(
               badgeColor: Colors.white,
               shape: BadgeShape.square,
               padding: EdgeInsets.symmetric(horizontal: 5),
               borderRadius: 20,
               badgeContent:
-                  Text(count, style: Theme.of(context).textTheme.body2),
+                  Text(badgeText, style: Theme.of(context).textTheme.body2),
             ),
         ],
       ),
