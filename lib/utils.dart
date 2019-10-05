@@ -6,7 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 Color hexToColor(String code) {
-  return Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
+  return Color(int.parse(code.substring(1, code.length-1), radix: 16) + 0xFF000000);
 }
 
 Future<String> searchLanguageColorHexCode(String language) async {

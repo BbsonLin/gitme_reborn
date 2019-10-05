@@ -6,10 +6,16 @@ class AccountModel extends ChangeNotifier {
   CurrentUser _user;
   List<Repository> _repos;
   List<Issue> _issues;
+  List<Repository> _stars;
+  List<User> _followers;
+  List<User> _followings;
 
   CurrentUser get profile => _user;
   List<Repository> get repos => _repos;
   List<Issue> get issues => _issues;
+  List<Repository> get stars => _stars;
+  List<User> get followers => _followers;
+  List<User> get followings => _followings;
 
   Future fetchRepos() async {
     CurrentUser user = await githubClient.users.getCurrentUser();
@@ -22,13 +28,37 @@ class AccountModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateUser(CurrentUser user) {
-    _user = user;
+  Future fetchStars() async {
+    CurrentUser user = await githubClient.users.getCurrentUser();
+    List jsonResult = await githubClient.getJSON(
+      "/users/${user.login}/starred",
+      params: {"pages": "1"},
+    );
+    _stars = jsonResult.map((star) {
+      return Repository.fromJSON(star);
+    }).toList();
     notifyListeners();
   }
 
-  void updateIssues(List<Issue> issues) {
-    _issues = issues;
+  Future fetchFollowers() async {
+    CurrentUser user = await githubClient.users.getCurrentUser();
+    _followers = await githubClient.users.listUserFollowers(user.login).toList();
+    notifyListeners();
+  }
+
+  Future fetchFollowings() async {
+    CurrentUser user = await githubClient.users.getCurrentUser();
+    List jsonResult = await githubClient.getJSON(
+      "/users/${user.login}/following",
+    );
+    _followings = jsonResult.map((user) {
+      return User.fromJson(user);
+    }).toList();
+    notifyListeners();
+  }
+
+  void updateUser(CurrentUser user) {
+    _user = user;
     notifyListeners();
   }
 
@@ -45,6 +75,30 @@ class AccountModel extends ChangeNotifier {
     notifyListeners();
 
     await fetchIssues();
+    notifyListeners();
+  }
+
+  Future refreshStars() async {
+    _stars = null;
+    notifyListeners();
+
+    await fetchStars();
+    notifyListeners();
+  }
+
+  Future refreshFollowers() async {
+    _followers = null;
+    notifyListeners();
+
+    await fetchFollowers();
+    notifyListeners();
+  }
+
+  Future refreshFollowings() async {
+    _followings = null;
+    notifyListeners();
+
+    await fetchFollowings();
     notifyListeners();
   }
 }

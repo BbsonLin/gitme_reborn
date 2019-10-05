@@ -1,19 +1,24 @@
 import "package:flutter/material.dart";
+import 'package:provider/provider.dart';
+
 import 'package:gitme_reborn/components/profile/profile_info.dart';
 import 'package:gitme_reborn/pages/repo.dart';
 import 'package:gitme_reborn/pages/profile/star.dart';
 import 'package:gitme_reborn/pages/profile/follow.dart';
+import 'package:gitme_reborn/stores/account.dart';
 
 class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var account = Provider.of<AccountModel>(context);
+    
     return DefaultTabController(
       child: Scaffold(
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverAppBar(
-                title: Text("BbsonLin"),
+                title: Text(account.profile.login),
                 pinned: true,
                 expandedHeight: 250.0,
                 flexibleSpace: FlexibleSpaceBar(
@@ -22,10 +27,10 @@ class ProfilePage extends StatelessWidget {
                     children: <Widget>[
                       SizedBox(height: 16.0),
                       ProfileInfo(
-                        avatarUrl:
-                            "https://avatars2.githubusercontent.com/u/18156421?s=400&u=1f91dcf74134827fde071751f95522845223ed6a&v=4",
-                        name: "Bobson Lin",
-                        location: "New Taipei City, Taiwan",
+                        avatarUrl: account.profile.avatarUrl,
+                        name: account.profile.name,
+                        bio: account.profile.bio,
+                        location: account.profile.location,
                       ),
                     ],
                   ),

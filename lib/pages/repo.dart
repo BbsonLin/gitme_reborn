@@ -1,9 +1,10 @@
 import "package:flutter/material.dart";
+import 'package:provider/provider.dart';
 import 'package:github/server.dart';
+
 import 'package:gitme_reborn/components/github_tiles.dart';
 import 'package:gitme_reborn/stores/account.dart';
 import 'package:gitme_reborn/utils.dart';
-import 'package:provider/provider.dart';
 
 class RepoPage extends StatefulWidget {
   @override

@@ -1,7 +1,9 @@
 import "package:flutter/material.dart";
 import 'package:github/server.dart';
 import 'package:gitme_reborn/components/github_tiles.dart';
-import 'package:gitme_reborn/services/github_api.dart';
+import 'package:gitme_reborn/stores/account.dart';
+import 'package:gitme_reborn/utils.dart';
+import 'package:provider/provider.dart';
 
 class StarRepoPage extends StatefulWidget {
   @override
@@ -9,69 +11,43 @@ class StarRepoPage extends StatefulWidget {
 }
 
 class _StarRepoPageState extends State<StarRepoPage> {
-  Future<List<Repository>> starRepoList;
-
-  @override
-  void initState() {
-    super.initState();
-    starRepoList = fetchStarRepos();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scrollbar(
-      child: RefreshIndicator(
-        child: FutureBuilder(
-          future: starRepoList,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.done:
-                if (!snapshot.hasError) {
-                  return ListView.separated(
-                    padding: EdgeInsets.all(0.0),
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return RepoTile(
-                        name:
-                            "${snapshot.data[index].owner.login}/${snapshot.data[index].name}",
-                        description: snapshot.data[index].description,
-                        stars: snapshot.data[index].stargazersCount,
-                        language: snapshot.data[index].language,
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) =>
-                        const Divider(height: 0.0),
-                  );
-                } else {
-                  return Center(child: Text("No Data"));
-                }
-                break;
-              case ConnectionState.none:
-              case ConnectionState.active:
-              case ConnectionState.waiting:
-                return Center(child: CircularProgressIndicator());
-            }
-          },
-        ),
-        onRefresh: () async {
-          await Future.delayed(Duration(seconds: 1));
-          setState(() {
-            starRepoList = fetchStarRepos();
-          });
-        },
-      ),
+    return Consumer<AccountModel>(
+      builder: (BuildContext context, AccountModel account, Widget child) {
+        if (account.stars == null) {
+          account.fetchStars();
+          return Center(child: CircularProgressIndicator());
+        } else {
+          return Scrollbar(
+            child: RefreshIndicator(
+              child: buildStarsListView(account.stars),
+              onRefresh: () async {
+                await Future.delayed(Duration(seconds: 1));
+                await account.refreshStars();
+                showNotify(message: "Refresh done");
+              },
+            ),
+          );
+        }
+      },
     );
   }
 
-  Future<List<Repository>> fetchStarRepos() async {
-    CurrentUser user = await githubClient.users.getCurrentUser();
-    List jsonResult = await githubClient.getJSON(
-      "/users/${user.login}/starred",
-      params: {"pages": "1"},
+  buildStarsListView(List<Repository> stars) {
+    return ListView.separated(
+      padding: EdgeInsets.all(0.0),
+      itemCount: stars.length,
+      itemBuilder: (BuildContext context, int index) {
+        return RepoTile(
+          name: "${stars[index].owner.login}/${stars[index].name}",
+          description: stars[index].description,
+          stars: stars[index].stargazersCount,
+          language: stars[index].language,
+        );
+      },
+      separatorBuilder: (BuildContext context, int index) =>
+          const Divider(height: 0.0),
     );
-    List<Repository> starRepos = jsonResult.map((star) {
-      return Repository.fromJSON(star);
-    }).toList();
-    return starRepos;
   }
 }
