@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
 
@@ -11,7 +12,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var account = Provider.of<AccountModel>(context);
-    
+
     return DefaultTabController(
       child: Scaffold(
         body: NestedScrollView(
@@ -38,10 +39,19 @@ class ProfilePage extends StatelessWidget {
                 bottom: TabBar(
                   labelPadding: EdgeInsets.zero,
                   tabs: <Widget>[
-                    Tab(text: "Repos"),
-                    Tab(text: "Stars"),
-                    Tab(text: "Followers"),
-                    Tab(text: "Following"),
+                    BadgeTab(
+                      text: "Repos",
+                      count: "${account.profile.publicReposCount}",
+                    ),
+                    BadgeTab(text: "Stars"),
+                    BadgeTab(
+                      text: "Followers",
+                      count: "${account.profile.followersCount}",
+                    ),
+                    BadgeTab(
+                      text: "Following",
+                      count: "${account.profile.followingCount}",
+                    ),
                   ],
                 ),
               ),
@@ -58,6 +68,39 @@ class ProfilePage extends StatelessWidget {
         ),
       ),
       length: 4,
+    );
+  }
+}
+
+class BadgeTab extends StatelessWidget {
+  const BadgeTab({
+    Key key,
+    @required this.text,
+    this.count,
+  }) : super(key: key);
+
+  final String text;
+  final String count;
+
+  @override
+  Widget build(BuildContext context) {
+    return Tab(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text("Repos"),
+          if (count != null) SizedBox(width: 4.0),
+          if (count != null)
+            Badge(
+              badgeColor: Colors.white,
+              shape: BadgeShape.square,
+              padding: EdgeInsets.symmetric(horizontal: 5),
+              borderRadius: 20,
+              badgeContent:
+                  Text(count, style: Theme.of(context).textTheme.body2),
+            ),
+        ],
+      ),
     );
   }
 }

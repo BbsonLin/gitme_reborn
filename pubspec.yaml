@@ -31,6 +31,7 @@ dependencies:
   package_info: ^0.4.0+6
   url_launcher: ^5.1.2
   timeago: ^2.0.19
+  badges: ^1.1.0
 
   # API Usage
   hnpwa_client: ^2.0.0
