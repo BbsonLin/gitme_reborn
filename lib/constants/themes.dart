@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:gitme_reborn/constants/materialColors.dart';
 
 final BlueTheme = ThemeData(
   primarySwatch: Colors.blue,
@@ -25,9 +26,9 @@ final BrownTheme = ThemeData(
 );
 
 final BlackTheme = ThemeData(
-  primarySwatch: Colors.black,
+  primarySwatch: materialBlack,
   buttonTheme: ButtonThemeData(
-    buttonColor: Colors.black,
+    buttonColor: materialBlack,
     textTheme: ButtonTextTheme.primary,
   ),
 );
