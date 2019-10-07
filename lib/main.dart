@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:provider/provider.dart';
 
 import "package:gitme_reborn/routes.dart";
 import "package:gitme_reborn/pages/home.dart";
@@ -10,13 +11,14 @@ import 'package:gitme_reborn/pages/setting/setting.dart';
 import 'package:gitme_reborn/pages/setting/setting_language.dart';
 import 'package:gitme_reborn/pages/trending/trending.dart';
 import 'package:gitme_reborn/stores/account.dart';
-import 'package:provider/provider.dart';
+import 'package:gitme_reborn/stores/setting.dart';
 
 Future main() async {
   await DotEnv().load('.env');
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(builder: (BuildContext context) => AccountModel()),
+      ChangeNotifierProvider(builder: (BuildContext context) => SettingModel())
     ],
     child: GitmeRebornApp(),
   ));
@@ -25,15 +27,11 @@ Future main() async {
 class GitmeRebornApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var setting = Provider.of<SettingModel>(context);
+
     return MaterialApp(
       title: "Gitme Reborn",
-      theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
-        buttonTheme: ButtonThemeData(
-          buttonColor: Colors.blueGrey,
-          textTheme: ButtonTextTheme.primary,
-        ),
-      ),
+      theme: setting.theme,
       routes: {
         GitmeRebornRoutes.login: (context) => LoginPage(),
         GitmeRebornRoutes.home: (context) => MainPage(),

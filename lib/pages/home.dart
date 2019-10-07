@@ -66,9 +66,6 @@ class MainPage extends StatelessWidget {
             padding: EdgeInsets.zero,
             children: <Widget>[
               UserAccountsDrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blueGrey,
-                ),
                 accountName: Text(account.profile.login),
                 accountEmail: Text(account.profile.email),
                 currentAccountPicture: GestureDetector(

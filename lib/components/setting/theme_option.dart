@@ -4,9 +4,11 @@ class ThemeOption extends StatelessWidget {
   const ThemeOption({
     Key key,
     this.color,
+    this.onPressed,
   }) : super(key: key);
 
   final Color color;
+  final Function onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class ThemeOption extends StatelessWidget {
           ),
         ),
       ),
-      onTap: () {},
+      onTap: onPressed,
     );
   }
 }
