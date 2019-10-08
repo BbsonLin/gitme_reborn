@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hnpwa_client/hnpwa_client.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +22,7 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var account = Provider.of<AccountModel>(context);
-    
+
     return DefaultTabController(
       length: 4,
       child: Scaffold(
@@ -35,10 +36,10 @@ class MainPage extends StatelessWidget {
           title: TabBar(
             labelPadding: EdgeInsets.zero,
             tabs: <Widget>[
-              Tab(text: "Home"),
-              Tab(text: "Repo"),
-              Tab(text: "Activity"),
-              Tab(text: "Issues"),
+              Tab(text: FlutterI18n.translate(context, "home.home")),
+              Tab(text: FlutterI18n.translate(context, "home.repo")),
+              Tab(text: FlutterI18n.translate(context, "home.activity")),
+              Tab(text: FlutterI18n.translate(context, "home.issues")),
             ],
           ),
           actions: <Widget>[
@@ -83,22 +84,22 @@ class MainPage extends StatelessWidget {
               ),
               DrawerTile(
                 icon: Icon(Icons.trending_up),
-                text: "Trending",
+                text: FlutterI18n.translate(context, "nav.trending"),
                 onPressed: () => Navigator.of(context).pushNamed("/trending"),
               ),
               DrawerTile(
                 icon: Icon(Icons.settings),
-                text: "Setting",
+                text: FlutterI18n.translate(context, "nav.setting"),
                 onPressed: () => Navigator.of(context).pushNamed("/setting"),
               ),
               DrawerTile(
                 icon: Icon(Icons.info),
-                text: "About",
+                text: FlutterI18n.translate(context, "nav.about"),
                 onPressed: () => Navigator.of(context).pushNamed("/about"),
               ),
               DrawerTile(
                 icon: Icon(Icons.power_settings_new),
-                text: "Sign out",
+                text: FlutterI18n.translate(context, "nav.signOut"),
                 onPressed: () async {
                   await showDialog(
                     context: context,

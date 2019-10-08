@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 import 'package:provider/provider.dart';
 import 'package:github/server.dart';
@@ -24,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
       child: Builder(
         builder: (context) => Scaffold(
           appBar: AppBar(
-            title: Text("Login"),
+            title: Text(FlutterI18n.translate(context, "login.login")),
           ),
           body: SingleChildScrollView(
             child: GithubLoginForm(

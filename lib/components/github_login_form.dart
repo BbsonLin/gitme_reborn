@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:flutter_i18n/flutter_i18n.dart';
 
 class GithubLoginForm extends StatefulWidget {
   const GithubLoginForm({
@@ -41,9 +42,10 @@ class _GithubLoginFormState extends State<GithubLoginForm> {
                   return null;
                 },
                 controller: usernameController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   prefixIcon: Icon(Icons.person),
-                  labelText: "Name *",
+                  labelText:
+                      "${FlutterI18n.translate(context, "login.username")} *",
                   hintText: "Your Github account username",
                 ),
                 onFieldSubmitted: (value) {
@@ -75,7 +77,8 @@ class _GithubLoginFormState extends State<GithubLoginForm> {
                       });
                     },
                   ),
-                  labelText: "Password *",
+                  labelText:
+                      "${FlutterI18n.translate(context, "login.password")} *",
                   hintText: "Your Github account password",
                 ),
               ),
@@ -87,7 +90,7 @@ class _GithubLoginFormState extends State<GithubLoginForm> {
               width: MediaQuery.of(context).size.width - 48.0,
               height: 48.0,
               child: RaisedButton(
-                child: Text("Login"),
+                child: Text(FlutterI18n.translate(context, "login.login")),
                 onPressed: () {
                   widget.onLogin(this);
                 },

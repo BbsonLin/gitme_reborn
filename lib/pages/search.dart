@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:github/server.dart';
+
 import 'package:gitme_reborn/components/github_tiles.dart';
 import 'package:gitme_reborn/services/github_api.dart';
 
@@ -34,12 +36,12 @@ class GitmeRebornSearchDelegate extends SearchDelegate {
             CheckedPopupMenuItem<SearchTypes>(
               value: SearchTypes.repos,
               checked: _searchType == SearchTypes.repos,
-              child: const Text("Search Repos"),
+              child: Text(FlutterI18n.translate(context, "search.searchRepos")),
             ),
             CheckedPopupMenuItem<SearchTypes>(
               value: SearchTypes.users,
               checked: _searchType == SearchTypes.users,
-              child: const Text("Search Users"),
+              child: Text(FlutterI18n.translate(context, "search.searchUsers")),
             ),
           ];
         },
@@ -78,7 +80,7 @@ class GitmeRebornSearchDelegate extends SearchDelegate {
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Text(
-                  "Search Repos",
+                  FlutterI18n.translate(context, "search.searchRepos"),
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
                     color: Theme.of(context).textSelectionColor,
@@ -96,7 +98,7 @@ class GitmeRebornSearchDelegate extends SearchDelegate {
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Text(
-                  "Search Users",
+                  FlutterI18n.translate(context, "search.searchUsers"),
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
                     color: Theme.of(context).textSelectionColor,
