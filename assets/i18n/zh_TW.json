@@ -1,0 +1,29 @@
+{
+    "login": {
+        "login": "登入",
+        "username": "使用者名稱/帳號",
+        "password": "密碼"
+    },
+    "home": {
+        "home": "首頁",
+        "repo": "倉庫",
+        "activity": "活動",
+        "issues": "議題"
+    },
+    "nav": {
+        "trending": "趨勢",
+        "setting": "設定",
+        "about": "關於",
+        "signOut": "登出"
+    },
+    "search": {
+        "search": "搜尋",
+        "searchRepos": "搜尋倉庫",
+        "searchUsers": "搜尋使用者"
+    },
+    "setting": {
+        "theme": "主題",
+        "language": "語言",
+        "switchLangMsg": "切換語言成 {lang}"
+    }
+}

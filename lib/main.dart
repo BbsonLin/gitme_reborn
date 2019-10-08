@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_i18n/flutter_i18n_delegate.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 import "package:gitme_reborn/routes.dart";
@@ -49,6 +51,16 @@ class GitmeRebornApp extends StatelessWidget {
             return MaterialPageRoute(builder: (context) => LoginPage());
         }
       },
+      localizationsDelegates: [
+        FlutterI18nDelegate(
+          useCountryCode: true,
+          fallbackFile: "en_US",
+          path: "assets/i18n",
+          forcedLocale: Locale("en", "US"),
+        ),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
     );
   }
 }

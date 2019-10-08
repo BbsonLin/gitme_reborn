@@ -43,6 +43,9 @@ dependencies:
   # State Management
   provider: ^3.1.0
 
+  # I18N
+  flutter_i18n: ^0.7.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -67,6 +70,7 @@ flutter:
   assets:
     - assets/images/
     - assets/data/
+    - assets/i18n/
     - .env
 
 flutter_icons:

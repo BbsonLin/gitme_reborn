@@ -1,0 +1,29 @@
+{
+    "login": {
+        "login": "登入",
+        "username": "使用者名称/帐号",
+        "password": "密码"
+    },
+    "home": {
+        "home": "首页",
+        "repo": "仓库",
+        "activity": "活动",
+        "issues": "议题"
+    },
+    "nav": {
+        "trending": "趋势",
+        "setting": "设定",
+        "about": "关于",
+        "signOut": "登出"
+    },
+    "search": {
+        "search": "搜寻",
+        "searchRepos": "搜寻仓库",
+        "searchUsers": "搜寻使用者"
+    },
+    "setting": {
+        "theme": "主题",
+        "language": "语言",
+        "switchLangMsg": "切换语言成 {lang}"
+    }
+}

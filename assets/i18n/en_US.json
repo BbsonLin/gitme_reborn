@@ -1,0 +1,29 @@
+{
+    "login": {
+        "login": "Login",
+        "username": "Username",
+        "password": "password"
+    },
+    "home": {
+        "home": "Home",
+        "repo": "Repo",
+        "activity": "Activity",
+        "issues": "Issues"
+    },
+    "nav": {
+        "trending": "Trending",
+        "setting": "Setting",
+        "about": "About",
+        "signOut": "Sign out"
+    },
+    "search": {
+        "search": "Search",
+        "searchRepos": "Search Repos",
+        "searchUsers": "Search Users"
+    },
+    "setting": {
+        "theme": "Theme",
+        "language": "Language",
+        "switchLangMsg": "Switch language to {lang}"
+    }
+}
