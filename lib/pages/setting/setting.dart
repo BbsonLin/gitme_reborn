@@ -1,4 +1,6 @@
 import "package:flutter/material.dart";
+import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:gitme_reborn/constants/languages.dart';
 import 'package:gitme_reborn/constants/themes.dart';
 import 'package:provider/provider.dart';
 
@@ -9,16 +11,17 @@ class SettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var setting = Provider.of<SettingModel>(context);
+    Locale currentLang = FlutterI18n.currentLocale(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Setting"),
+        title: Text(FlutterI18n.translate(context, "nav.setting")),
       ),
       body: ListView(
         children: <Widget>[
           ExpansionTile(
             leading: Icon(Icons.palette),
-            title: Text("Theme"),
+            title: Text(FlutterI18n.translate(context, "setting.theme")),
             children: <Widget>[
               Wrap(
                 spacing: 8.0,
@@ -49,11 +52,11 @@ class SettingPage extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.language),
-            title: Text("Language"),
+            title: Text(FlutterI18n.translate(context, "setting.language")),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Text("English"),
+                Text(localeLangStrMap[currentLang.toString()]),
                 Icon(Icons.keyboard_arrow_right),
               ],
             ),

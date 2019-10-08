@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:github/server.dart';
+
 import 'package:gitme_reborn/components/github_login_form.dart';
 import 'package:gitme_reborn/services/github_api.dart';
 import 'package:gitme_reborn/stores/account.dart';
 import 'package:gitme_reborn/utils.dart';
-import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   @override
