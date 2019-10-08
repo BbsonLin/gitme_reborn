@@ -25,19 +25,23 @@ class SettingPage extends StatelessWidget {
                 children: <Widget>[
                   ThemeOption(
                     color: Colors.blue,
-                    onPressed: () => setting.changeTheme(BlueTheme),
+                    onPressed: () => setting
+                        .changeTheme(appLightThemeData[AppLightTheme.Blue]),
                   ),
                   ThemeOption(
                     color: Colors.blueGrey,
-                    onPressed: () => setting.changeTheme(BlueGreyTheme),
+                    onPressed: () => setting
+                        .changeTheme(appLightThemeData[AppLightTheme.BlueGrey]),
                   ),
                   ThemeOption(
                     color: Colors.brown,
-                    onPressed: () => setting.changeTheme(BrownTheme),
+                    onPressed: () => setting
+                        .changeTheme(appLightThemeData[AppLightTheme.Brown]),
                   ),
                   ThemeOption(
                     color: Colors.black,
-                    onPressed: () => setting.changeTheme(BlackTheme),
+                    onPressed: () => setting
+                        .changeTheme(appLightThemeData[AppLightTheme.Black]),
                   ),
                 ],
               )
