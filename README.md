@@ -1,7 +1,7 @@
 Gitme Reborn
 ============
 
-It's reborn version of [Gitme](https://flutterchina.club/app/gm.html).
+It's reborn version of [Gitme](https://github.com/flutterchina/gitme).
 
 This project is built with [Flutter](https://flutter.dev/)
 
